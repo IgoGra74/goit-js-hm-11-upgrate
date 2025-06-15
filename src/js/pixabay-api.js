@@ -1,7 +1,8 @@
 import axios from 'axios';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 export function getImagesByQuery(query) {
-  axios.defaults.baseURL = 'https://pixabay.com';
   const searchParams = new URLSearchParams({
     key: '42099926-52a1046a87902a6e56a7e135a',
     q: `${query}`,
@@ -9,12 +10,10 @@ export function getImagesByQuery(query) {
     orientation: 'horizontal',
     safesearch: true,
   });
-  console.log(searchParams);
-  axios
-    .get(`/api?${searchParams}`)
-    .then(res => {
-      return res.json();
-    })
+
+  return axios
+    .get(`https://pixabay.com//api?${searchParams}`)
+    .then(res => res.data)
     .catch(error => {
       iziToast.error({
         title: 'Error',
