@@ -2,6 +2,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import { getImagesByQuery } from './js/pixabay-api';
 
 const formSearch = document.querySelector('.form-inline');
 const galleryContainer = document.querySelector('.gallery');
@@ -31,7 +32,7 @@ function onFormSubmit(event) {
   galleryContainer.innerHTML = '';
   loader.style.display = 'block';
 
-  getImage(query)
+  getImagesByQuery(query)
     .then(function ({ hits, total }) {
       if (Array.isArray(hits) && hits.length > 0 && total > 0) {
         renderImage(hits);
@@ -68,34 +69,34 @@ function onFormSubmit(event) {
     });
 }
 
-function getImage(hit) {
-  const BASE_URL = 'https://pixabay.com';
-  const END_POINT = '/api/';
-  const PARAMS = `?key=42099926-52a1046a87902a6e56a7e135a&q=${hit}&image_type=photo&orientation=horizontal&safesearch=true `;
+// function getImage(hit) {
+//   const BASE_URL = 'https://pixabay.com';
+//   const END_POINT = '/api/';
+//   const PARAMS = `?key=42099926-52a1046a87902a6e56a7e135a&q=${hit}&image_type=photo&orientation=horizontal&safesearch=true `;
 
-  const url = BASE_URL + END_POINT + PARAMS;
+//   const url = BASE_URL + END_POINT + PARAMS;
 
-  return fetch(url)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-      return res.json();
-    })
-    .catch(error => {
-      iziToast.error({
-        title: 'Error',
-        titleColor: '#FFFFFF',
-        message: 'An error occurred while fetching data. Please try again.',
-        position: 'topRight',
-        messageColor: '#FFFFFF',
-        backgroundColor: '#FF6347',
-        iconUrl: null,
-      });
-      console.error('Error fetching data:', error);
-      throw error;
-    });
-}
+//   return fetch(url)
+//     .then(res => {
+//       if (!res.ok) {
+//         throw new Error(`HTTP error! Status: ${res.status}`);
+//       }
+//       return res.json();
+//     })
+//     .catch(error => {
+//       iziToast.error({
+//         title: 'Error',
+//         titleColor: '#FFFFFF',
+//         message: 'An error occurred while fetching data. Please try again.',
+//         position: 'topRight',
+//         messageColor: '#FFFFFF',
+//         backgroundColor: '#FF6347',
+//         iconUrl: null,
+//       });
+//       console.error('Error fetching data:', error);
+//       throw error;
+//     });
+// }
 
 function imageTemplate({
   webformatURL,
